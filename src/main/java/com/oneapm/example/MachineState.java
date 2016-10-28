@@ -50,8 +50,7 @@ public class MachineState {
             System.out.println(output);
             return;
         }
-        this.insertedCoins.forEach(coin -> this.addThingsToPile(this.changes,
-                                                                coin));
+        insertedCoins.forEach(coin -> addThingsToPile(changes,coin));
         List<Coin> cs = charge.doCharge(changes,
                                         balance);
 
