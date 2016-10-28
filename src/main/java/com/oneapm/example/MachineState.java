@@ -30,7 +30,7 @@ public class MachineState {
 //            throw new NoProductException("No such product.");
             output = this.insertedCoins.stream()
                                        .map(coin -> coin.name)
-                                       .collect(Collectors.joining(","))+"NO-SUCH-PRODUCT";
+                                       .collect(Collectors.joining(",")) + "NO-SUCH-PRODUCT";
             return;
         }
 
@@ -39,10 +39,10 @@ public class MachineState {
         if (balance < 0) {
             output = this.insertedCoins.stream()
                                        .map(coin -> coin.name)
-                                       .collect(Collectors.joining(","))+"NOT-ENOUGH-BALANCE";
+                                       .collect(Collectors.joining(",")) + "NOT-ENOUGH-BALANCE";
             return;
         }
-        if(balance==0){
+        if (balance == 0) {
             this.products.get(product)
                          .decrementAndGet();
             this.insertedCoins.clear();
@@ -50,7 +50,8 @@ public class MachineState {
             System.out.println(output);
             return;
         }
-        this.insertedCoins.forEach(coin -> this.addThingsToPile(this.changes, coin));
+        this.insertedCoins.forEach(coin -> this.addThingsToPile(this.changes,
+                                                                coin));
         List<Coin> cs = charge.doCharge(changes,
                                         balance);
 
