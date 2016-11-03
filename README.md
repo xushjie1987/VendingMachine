@@ -18,7 +18,7 @@ currently inserted money
 
 #Example input and output
 
-\```
+```
 Example 1: Buy B with exact change
 Q, Q, Q, Q, GET-B
 -> B
