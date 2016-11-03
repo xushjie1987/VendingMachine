@@ -4,7 +4,6 @@ import com.oneapm.example.charge.Charge;
 import com.oneapm.example.charge.DynamicCharge;
 import com.oneapm.example.coins.Coin;
 import com.oneapm.example.products.Product;
-import com.sun.deploy.net.proxy.ProxyUnavailableException;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,19 +26,14 @@ public class MachineState {
     public void obtainProduct(Product product) {
         if (this.products.get(product) == null || this.products.get(product)
                                                                .get() == 0) {
-//            throw new NoProductException("No such product.");
-            output = this.insertedCoins.stream()
-                                       .map(coin -> coin.name)
-                                       .collect(Collectors.joining(",")) + "NO-SUCH-PRODUCT";
+            returnTheInsertedCoins();
             return;
         }
 
         int balance = getUserBalance() - product.getPrice();
 
         if (balance < 0) {
-            output = this.insertedCoins.stream()
-                                       .map(coin -> coin.name)
-                                       .collect(Collectors.joining(",")) + "NOT-ENOUGH-BALANCE";
+            returnTheInsertedCoins();
             return;
         }
         if (balance == 0) {
@@ -57,9 +51,7 @@ public class MachineState {
         if (cs.isEmpty()) {
             this.insertedCoins.forEach(coin -> this.subThingsFromPile(this.changes,
                                                                       coin));
-            output = this.insertedCoins.stream()
-                                       .map(coin -> coin.name)
-                                       .collect(Collectors.joining(","));
+            returnTheInsertedCoins();
 
         } else {
             this.insertedCoins.forEach(coin -> this.subThingsFromPile(this.changes,
@@ -73,6 +65,12 @@ public class MachineState {
             System.out.println(output);
 
         }
+    }
+
+    private void returnTheInsertedCoins() {
+        output = this.insertedCoins.stream()
+                                   .map(coin -> coin.name)
+                                   .collect(Collectors.joining(","));
     }
 
     public int getUserBalance() {
@@ -218,9 +216,7 @@ public class MachineState {
     }
 
     public void returnCoin() {
-        output = this.insertedCoins.stream()
-                                   .map(c -> c.name)
-                                   .collect(Collectors.joining(","));
+        returnTheInsertedCoins();
         this.insertedCoins.clear();
     }
 }
